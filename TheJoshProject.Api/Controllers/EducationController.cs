@@ -42,7 +42,7 @@ public class EducationController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    /// <response code="200">Returns skills for education id</response>
+    /// <response code="200">Returns details education id</response>
     /// <response code="404">If education id is not found</response>
     /// <response code="500">If there is an error</response>
     /// <remarks>

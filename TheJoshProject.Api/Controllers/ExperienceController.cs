@@ -17,7 +17,7 @@ public class ExperienceController : ControllerBase
     /// Get all experiences
     /// </summary>
     /// <returns></returns>
-    /// <response code="200">Returns skills for experience id</response>
+    /// <response code="200">Returns all experiences</response>
     /// <response code="404">If experience id is not found</response>
     /// <response code="500">If there is an error</response>
     /// <remarks>
@@ -42,7 +42,7 @@ public class ExperienceController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    /// <response code="200">Returns skills for experience id</response>
+    /// <response code="200">Returns experience for id</response>
     /// <response code="404">If experience id is not found</response>
     /// <response code="500">If there is an error</response>
     /// <remarks>
