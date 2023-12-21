@@ -2,13 +2,10 @@ using TheJoshProject.Api.Models;
 
 namespace TheJoshProject.Api.Services;
 
-public class ExperienceService : IExperienceService
+public class ExperienceService : ApiService, IExperienceService
 {
-    private readonly IDbService _dbService;
-
-    public ExperienceService(IDbService dbService)
+    public ExperienceService(IDbService dbService) : base(dbService)
     {
-        _dbService = dbService;
     }
 
     public async Task<List<Experience>> GetAllExperience()

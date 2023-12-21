@@ -1,12 +1,10 @@
 using TheJoshProject.Api.Models;
 namespace TheJoshProject.Api.Services;
 
-public class SkillService : ISkillService
+public class SkillService : ApiService, ISkillService
 {
-    private readonly IDbService _dbService;
-    public SkillService(IDbService dbService)
+    public SkillService(IDbService dbService) : base(dbService)
     {
-        _dbService = dbService;
     }
 
     public async Task<List<Skill>> GetAllSkills()

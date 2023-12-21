@@ -1,13 +1,10 @@
 using TheJoshProject.Api.Models;
 namespace TheJoshProject.Api.Services;
 
-public class EmployerService : IEmployerService
+public class EmployerService : ApiService, IEmployerService
 {
-    private readonly IDbService _dbService;
-
-    public EmployerService(IDbService dbService)
+    public EmployerService(IDbService dbService) : base(dbService)
     {
-        _dbService = dbService;
     }
 
     public async Task<List<Employer>> GetAllEmployers()
