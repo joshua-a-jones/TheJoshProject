@@ -31,9 +31,8 @@ public class SkillController : ControllerBase
     /// </remarks>
     [HttpGet("all")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult>GetAllSkillsAsync()
+    public async Task<ActionResult<List<Skill>>>GetAllSkillsAsync()
     {
         return Ok(await _skillService.GetAllSkills());
     }
@@ -56,16 +55,13 @@ public class SkillController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetSkillByIdAsync([FromQuery] int id)
+    public async Task<ActionResult<Skill>> GetSkillByIdAsync([FromQuery] int id)
     {
         var skill =  await _skillService.GetSkill(id);
 
-        if (skill == null)
-        {
-            return NotFound($"Skill with id {id} not found");
-        }
-
-        return Ok(skill);
+        return skill == null
+            ? NotFound($"Skill with id {id} not found")
+            :  Ok(skill);
     }
 
     /// <summary>
@@ -87,7 +83,7 @@ public class SkillController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetSkillsByExperienceIdAsync([FromQuery] int experienceId)
+    public async Task<ActionResult<List<Skill>>> GetSkillsByExperienceIdAsync([FromQuery] int experienceId)
     {
         if (await _experienceService.GetExperience(experienceId) == null) {
             return NotFound($"Experience with id {experienceId} not found");

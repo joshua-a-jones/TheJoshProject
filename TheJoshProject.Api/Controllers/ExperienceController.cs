@@ -18,7 +18,6 @@ public class ExperienceController : ControllerBase
     /// </summary>
     /// <returns></returns>
     /// <response code="200">Returns all experiences</response>
-    /// <response code="404">If experience id is not found</response>
     /// <response code="500">If there is an error</response>
     /// <remarks>
     /// Sample request:
@@ -28,9 +27,8 @@ public class ExperienceController : ControllerBase
     /// </remarks>
     [HttpGet("all")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult>GetAllExperiencesAsync()
+    public async Task<ActionResult<List<Experience>>>GetAllExperiencesAsync()
     {
         var result = await _experienceService.GetAllExperience();
 
@@ -55,15 +53,12 @@ public class ExperienceController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetExperience([FromQuery] int id)
+    public async Task<ActionResult<Experience>> GetExperience([FromQuery] int id)
     {
         var experience =  await _experienceService.GetExperience(id);
 
-        if (experience == null)
-        {
-            return NotFound($"Experience with id {id} was not found");
-        }
-
-        return Ok(experience);
+        return experience == null 
+            ? NotFound($"Experience with id {id} was not found")
+            :  Ok(experience);
     }
 }

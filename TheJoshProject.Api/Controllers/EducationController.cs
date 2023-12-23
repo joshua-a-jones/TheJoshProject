@@ -18,7 +18,6 @@ public class EducationController : ControllerBase
     /// </summary>
     /// <returns></returns>
     /// <response code="200">Returns skills for education id</response>
-    /// <response code="404">If education id is not found</response>
     /// <response code="500">If there is an error</response>
     /// <remarks>
     /// Sample request:
@@ -28,9 +27,8 @@ public class EducationController : ControllerBase
     /// </remarks>
     [HttpGet("all")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult>GetAllEducationAsync()
+    public async Task<ActionResult<List<Education>>>GetAllEducationAsync()
     {
         var result = await _educationService.GetAllEducationAsync();
 
@@ -55,15 +53,12 @@ public class EducationController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetEducation([FromQuery] int id)
+    public async Task<ActionResult<Education>> GetEducation([FromQuery] int id)
     {
         var education =  await _educationService.GetEducationByIdAsync(id);
 
-        if (education == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(education);
+        return education == null
+            ? NotFound($"Education with ID {id} was not found")
+            : Ok(education);
     }
 }
