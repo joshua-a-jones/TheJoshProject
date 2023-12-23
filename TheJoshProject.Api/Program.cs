@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using TheJoshProject.Api.Services;
+using TheJoshProject.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,9 +35,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
-app.UseAuthorization();
+app.UseHttpsRedirection();
 
 app.MapControllers();
 
