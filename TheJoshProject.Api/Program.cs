@@ -12,6 +12,7 @@ builder.Services.AddScoped<IExperienceService, ExperienceService>();
 builder.Services.AddScoped<IEmployerService, EmployerService>();
 builder.Services.AddScoped<ISkillService, SkillService>();
 builder.Services.AddScoped<IEducationService, EducationService>();
+builder.Services.AddTransient<ExceptionHandlerMiddleware>();
 
 
 builder.Services.AddControllers();
