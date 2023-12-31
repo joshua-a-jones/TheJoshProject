@@ -1,9 +1,10 @@
 using TheJoshProject.Api.Models;
 namespace TheJoshProject.Api.Services;
+using TheJoshProject.Api.DataAccess;
 
 public class EmployerService : ApiService, IEmployerService
 {
-    public EmployerService(IDbService dbService) : base(dbService)
+    public EmployerService(IRepository repo) : base(repo)
     {
     }
 
@@ -13,7 +14,7 @@ public class EmployerService : ApiService, IEmployerService
             SELECT * FROM Employer
         ";
 
-        return await _dbService.GetAll<Employer>(sql, null);
+        return await _repo.GetAllDataAsync<Employer>(sql, null);
     }
 
     public async Task<Employer?> GetEmployer(int id)
@@ -22,7 +23,7 @@ public class EmployerService : ApiService, IEmployerService
             SELECT * FROM Employer WHERE EmployerId = @Id
         ";
 
-        return await _dbService.GetAsync<Employer>(sql, new { Id = id });
+        return await _repo.GetDataAsync<Employer>(sql, new { Id = id });
     }
 
     public async Task<int> GetEmployerIdByName(string employerName)
@@ -31,6 +32,6 @@ public class EmployerService : ApiService, IEmployerService
             SELECT EmployerId FROM Employer WHERE EmployerName = @EmployerName
         ";
 
-        return await _dbService.GetAsync<int>(sql, new { EmployerName = employerName });
+        return await _repo.GetDataAsync<int>(sql, new { EmployerName = employerName });
     }
 }

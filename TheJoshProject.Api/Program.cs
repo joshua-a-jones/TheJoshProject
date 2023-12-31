@@ -3,11 +3,12 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using TheJoshProject.Api.Services;
 using TheJoshProject.Api.Middleware;
+using TheJoshProject.Api.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddScoped<IDbService, DbService>();
+builder.Services.AddScoped<IRepository, SqlRepository>();
 builder.Services.AddScoped<IExperienceService, ExperienceService>();
 builder.Services.AddScoped<IEmployerService, EmployerService>();
 builder.Services.AddScoped<ISkillService, SkillService>();

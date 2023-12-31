@@ -1,15 +1,16 @@
+using TheJoshProject.Api.DataAccess;
 using TheJoshProject.Api.Models;
 namespace TheJoshProject.Api.Services;
 
 public class SkillService : ApiService, ISkillService
 {
-    public SkillService(IDbService dbService) : base(dbService)
+    public SkillService(IRepository repo) : base(repo)
     {
     }
 
     public async Task<List<Skill>> GetAllSkills()
     {
-        return await _dbService.GetAll<Skill>("SELECT * FROM Skill", null);
+        return await _repo.GetAllDataAsync<Skill>("SELECT * FROM Skill", null);
     }
 
     public async Task<List<Skill>> GetSkillsByExperienceId(int experienceId)
@@ -21,7 +22,7 @@ public class SkillService : ApiService, ISkillService
             JOIN Employer em ON em.EmployerId = ex.EmployerId
             WHERE ex.ExperienceId = @Id";
 
-        return await _dbService.GetAll<Skill>(sql, new { Id = experienceId });
+        return await _repo.GetAllDataAsync<Skill>(sql, new { Id = experienceId });
     }
 
     public async Task<List<Skill>> GetSkillsByEmployerAndJob(string employerName, string jobTitle)
@@ -33,10 +34,10 @@ public class SkillService : ApiService, ISkillService
             JOIN Employer em ON em.EmployerId = ex.EmployerId
             WHERE em.EmployerName = @EmployerName AND ex.JobTitle = @JobTitle";
 
-        return await _dbService.GetAll<Skill>(sql, new { EmployerName = employerName, JobTitle = jobTitle });
+        return await _repo.GetAllDataAsync<Skill>(sql, new { EmployerName = employerName, JobTitle = jobTitle });
     }
     public async Task<Skill?> GetSkill(int id)
     {
-        return await _dbService.GetAsync<Skill>("SELECT * FROM Skill WHERE SkillId = @Id", new { Id = id });
+        return await _repo.GetDataAsync<Skill>("SELECT * FROM Skill WHERE SkillId = @Id", new { Id = id });
     }
 }

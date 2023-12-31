@@ -1,10 +1,11 @@
+using TheJoshProject.Api.DataAccess;
 using TheJoshProject.Api.Models;
 
 namespace TheJoshProject.Api.Services;
 
 public class ExperienceService : ApiService, IExperienceService
 {
-    public ExperienceService(IDbService dbService) : base(dbService)
+    public ExperienceService(IRepository repo) : base(repo)
     {
     }
 
@@ -16,7 +17,7 @@ public class ExperienceService : ApiService, IExperienceService
             SELECT em.EmployerName, ex.* FROM Experience ex
             JOIN Employer em ON em.EmployerId = ex.EmployerId";
 
-        result = await _dbService.GetAll<Experience>(sql, null);
+        result = await _repo.GetAllDataAsync<Experience>(sql, null);
 
         return result;
     }
@@ -28,7 +29,7 @@ public class ExperienceService : ApiService, IExperienceService
             JOIN Employer em ON em.EmployerId = ex.EmployerId
             WHERE ex.ExperienceId = @Id";
 
-        return await _dbService.GetAsync<Experience>(sql, new { Id = id });
+        return await _repo.GetDataAsync<Experience>(sql, new { Id = id });
     }
 
     public async Task<int> GetExperienceIdByEmployerAndJob(string employerName, string jobTitle)
@@ -38,7 +39,7 @@ public class ExperienceService : ApiService, IExperienceService
             JOIN Employer em ON em.EmployerId = ex.EmployerId
             WHERE em.EmployerName = @EmployerName AND ex.JobTitle = @JobTitle";
 
-        return await _dbService.GetAsync<int>(sql, new { EmployerName = employerName, JobTitle = jobTitle });
+        return await _repo.GetDataAsync<int>(sql, new { EmployerName = employerName, JobTitle = jobTitle });
     }
 
 }

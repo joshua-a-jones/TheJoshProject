@@ -1,11 +1,18 @@
+using TheJoshProject.Api.DataAccess;
+
 namespace TheJoshProject.Api.Services;
 
-public abstract class ApiService
+public abstract class ApiService : IDisposable
 {
-    protected readonly IDbService _dbService;
+    protected readonly IRepository _repo;
 
-    protected ApiService(IDbService dbService)
+    protected ApiService(IRepository repo)
     {
-        _dbService = dbService;
+        _repo = repo;
+    }
+
+    public void Dispose()
+    {
+        _repo.Dispose();
     }
 }
