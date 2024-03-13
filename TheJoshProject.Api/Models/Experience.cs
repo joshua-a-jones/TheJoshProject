@@ -1,7 +1,7 @@
 namespace TheJoshProject.Api.Models;
 
 public class Experience {
-    public int Id { get; set; }
+    public int ExperienceId { get; set; }
     required public string EmployerName { get; set; }
     required public string JobTitle { get; set; }
     public string? JobDescription { get; set; }
