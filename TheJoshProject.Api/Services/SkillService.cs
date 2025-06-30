@@ -16,7 +16,7 @@ public class SkillService : ApiService, ISkillService
     public async Task<List<Skill>> GetSkillsByExperienceId(int experienceId)
     {
         var sql = @"
-            SELECT s.SkillName, s.SkillDescription FROM Skill s
+            SELECT s.SkillId, s.SkillName, s.SkillDescription FROM Skill s
             JOIN ExperienceSkill es ON es.SkillId = s.SkillId
             JOIN Experience ex ON ex.ExperienceId = es.ExperienceId
             JOIN Employer em ON em.EmployerId = ex.EmployerId
@@ -28,7 +28,7 @@ public class SkillService : ApiService, ISkillService
     public async Task<List<Skill>> GetSkillsByEmployerAndJob(string employerName, string jobTitle)
     {
         var sql = @"
-            SELECT s.SkillName, s.SkillDescription FROM Skill s
+            SELECT s.SkillId, s.SkillName, s.SkillDescription FROM Skill s
             JOIN ExperienceSkill es ON es.SkillId = s.SkillId
             JOIN Experience ex ON ex.ExperienceId = es.ExperienceId
             JOIN Employer em ON em.EmployerId = ex.EmployerId
