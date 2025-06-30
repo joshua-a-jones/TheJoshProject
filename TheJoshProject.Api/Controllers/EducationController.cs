@@ -17,7 +17,7 @@ public class EducationController : ControllerBase
     /// Get all education
     /// </summary>
     /// <returns></returns>
-    /// <response code="200">Returns skills for education id</response>
+    /// <response code="200">Returns all education entries</response>
     /// <response code="500">If there is an error</response>
     /// <remarks>
     /// Sample request:
