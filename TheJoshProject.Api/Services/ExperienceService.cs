@@ -27,4 +27,9 @@ public class ExperienceService : IExperienceService
         return await _experienceRepository.GetIdByEmployerAndJobAsync(employerName, jobTitle);
     }
 
+    public async Task<List<Experience>> GetExperienceByFilters(string? employerName, DateTime? startDate, DateTime? endDate)
+    {
+        return await _experienceRepository.GetFilteredAsync(employerName, startDate, endDate);
+    }
+
 }

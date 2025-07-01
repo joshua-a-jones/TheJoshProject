@@ -7,4 +7,5 @@ public interface IExperienceRepository
     Task<List<Experience>> GetAllAsync();
     Task<Experience?> GetByIdAsync(int id);
     Task<int> GetIdByEmployerAndJobAsync(string employerName, string jobTitle);
+    Task<List<Experience>> GetFilteredAsync(string? employerName, DateTime? startDate, DateTime? endDate);
 }
