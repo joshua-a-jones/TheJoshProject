@@ -1,43 +1,32 @@
-using TheJoshProject.Api.DataAccess;
+using TheJoshProject.Api.DataAccess.Repositories;
 using TheJoshProject.Api.Models;
 namespace TheJoshProject.Api.Services;
 
-public class SkillService : ApiService, ISkillService
+public class SkillService : ISkillService
 {
-    public SkillService(IRepository repo) : base(repo)
+    private readonly ISkillRepository _skillRepository;
+
+    public SkillService(ISkillRepository skillRepository)
     {
+        _skillRepository = skillRepository;
     }
 
     public async Task<List<Skill>> GetAllSkills()
     {
-        return await _repo.GetAllDataAsync<Skill>("SELECT * FROM Skill", null);
+        return await _skillRepository.GetAllAsync();
     }
 
     public async Task<List<Skill>> GetSkillsByExperienceId(int experienceId)
     {
-        var sql = @"
-            SELECT s.SkillId, s.SkillName, s.SkillDescription FROM Skill s
-            JOIN ExperienceSkill es ON es.SkillId = s.SkillId
-            JOIN Experience ex ON ex.ExperienceId = es.ExperienceId
-            JOIN Employer em ON em.EmployerId = ex.EmployerId
-            WHERE ex.ExperienceId = @Id";
-
-        return await _repo.GetAllDataAsync<Skill>(sql, new { Id = experienceId });
+        return await _skillRepository.GetByExperienceIdAsync(experienceId);
     }
 
     public async Task<List<Skill>> GetSkillsByEmployerAndJob(string employerName, string jobTitle)
     {
-        var sql = @"
-            SELECT s.SkillId, s.SkillName, s.SkillDescription FROM Skill s
-            JOIN ExperienceSkill es ON es.SkillId = s.SkillId
-            JOIN Experience ex ON ex.ExperienceId = es.ExperienceId
-            JOIN Employer em ON em.EmployerId = ex.EmployerId
-            WHERE em.EmployerName = @EmployerName AND ex.JobTitle = @JobTitle";
-
-        return await _repo.GetAllDataAsync<Skill>(sql, new { EmployerName = employerName, JobTitle = jobTitle });
+        return await _skillRepository.GetByEmployerAndJobAsync(employerName, jobTitle);
     }
     public async Task<Skill?> GetSkill(int id)
     {
-        return await _repo.GetDataAsync<Skill>("SELECT * FROM Skill WHERE SkillId = @Id", new { Id = id });
+        return await _skillRepository.GetByIdAsync(id);
     }
 }

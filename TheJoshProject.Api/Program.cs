@@ -4,11 +4,16 @@ using System.Reflection;
 using TheJoshProject.Api.Services;
 using TheJoshProject.Api.Middleware;
 using TheJoshProject.Api.DataAccess;
+using TheJoshProject.Api.DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IRepository, SqlRepository>();
+builder.Services.AddScoped<IEducationRepository, EducationRepository>();
+builder.Services.AddScoped<IExperienceRepository, ExperienceRepository>();
+builder.Services.AddScoped<IEmployerRepository, EmployerRepository>();
+builder.Services.AddScoped<ISkillRepository, SkillRepository>();
 builder.Services.AddScoped<IExperienceService, ExperienceService>();
 builder.Services.AddScoped<IEmployerService, EmployerService>();
 builder.Services.AddScoped<ISkillService, SkillService>();

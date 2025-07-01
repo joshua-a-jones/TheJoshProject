@@ -1,45 +1,30 @@
-using TheJoshProject.Api.DataAccess;
+using TheJoshProject.Api.DataAccess.Repositories;
 using TheJoshProject.Api.Models;
 
 namespace TheJoshProject.Api.Services;
 
-public class ExperienceService : ApiService, IExperienceService
+public class ExperienceService : IExperienceService
 {
-    public ExperienceService(IRepository repo) : base(repo)
+    private readonly IExperienceRepository _experienceRepository;
+
+    public ExperienceService(IExperienceRepository experienceRepository)
     {
+        _experienceRepository = experienceRepository;
     }
 
     public async Task<List<Experience>> GetAllExperience()
     {
-        List<Experience> result;
-
-        var sql = @"
-            SELECT em.EmployerName, ex.* FROM Experience ex
-            JOIN Employer em ON em.EmployerId = ex.EmployerId";
-
-        result = await _repo.GetAllDataAsync<Experience>(sql, null);
-
-        return result;
+        return await _experienceRepository.GetAllAsync();
     }
 
     public async Task<Experience?> GetExperience(int id)
     {
-        var sql = @"
-            SELECT em.EmployerName, ex.* FROM Experience ex
-            JOIN Employer em ON em.EmployerId = ex.EmployerId
-            WHERE ex.ExperienceId = @Id";
-
-        return await _repo.GetDataAsync<Experience>(sql, new { Id = id });
+        return await _experienceRepository.GetByIdAsync(id);
     }
 
     public async Task<int> GetExperienceIdByEmployerAndJob(string employerName, string jobTitle)
     {
-        var sql = @"
-            SELECT ex.ExperienceId FROM Experience ex
-            JOIN Employer em ON em.EmployerId = ex.EmployerId
-            WHERE em.EmployerName = @EmployerName AND ex.JobTitle = @JobTitle";
-
-        return await _repo.GetDataAsync<int>(sql, new { EmployerName = employerName, JobTitle = jobTitle });
+        return await _experienceRepository.GetIdByEmployerAndJobAsync(employerName, jobTitle);
     }
 
 }
