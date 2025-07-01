@@ -10,7 +10,16 @@ public class SqlRepository : IRepository
     public SqlRepository(IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        Console.WriteLine($"connectionString: {connectionString}");
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            connectionString = configuration["TheJoshProjectDefaultConnectionString"];
+        }
+
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException("Database connection string is not configured.");
+        }
+
         _db = new NpgsqlConnection(connectionString);
     }
 
