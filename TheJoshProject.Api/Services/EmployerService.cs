@@ -1,37 +1,28 @@
 using TheJoshProject.Api.Models;
 namespace TheJoshProject.Api.Services;
-using TheJoshProject.Api.DataAccess;
+using TheJoshProject.Api.DataAccess.Repositories;
 
-public class EmployerService : ApiService, IEmployerService
+public class EmployerService : IEmployerService
 {
-    public EmployerService(IRepository repo) : base(repo)
+    private readonly IEmployerRepository _employerRepository;
+
+    public EmployerService(IEmployerRepository employerRepository)
     {
+        _employerRepository = employerRepository;
     }
 
     public async Task<List<Employer>> GetAllEmployers()
     {
-        var sql = @"
-            SELECT * FROM Employer
-        ";
-
-        return await _repo.GetAllDataAsync<Employer>(sql, null);
+        return await _employerRepository.GetAllAsync();
     }
 
     public async Task<Employer?> GetEmployer(int id)
     {
-        var sql = @"
-            SELECT * FROM Employer WHERE EmployerId = @Id
-        ";
-
-        return await _repo.GetDataAsync<Employer>(sql, new { Id = id });
+        return await _employerRepository.GetByIdAsync(id);
     }
 
     public async Task<int> GetEmployerIdByName(string employerName)
     {
-        var sql = @"
-            SELECT EmployerId FROM Employer WHERE EmployerName = @EmployerName
-        ";
-
-        return await _repo.GetDataAsync<int>(sql, new { EmployerName = employerName });
+        return await _employerRepository.GetIdByNameAsync(employerName);
     }
 }
