@@ -38,7 +38,7 @@ public class SkillServiceTests
         repoMock.Verify(r => r.GetAllDataAsync<Skill>(
                 It.Is<string>(s => s == expectedSql && s.Contains("SkillId")),
                 It.Is<object>(o =>
-                    o!.GetType().GetProperty("Id")?.GetValue(o) is int id && id == 5)
+                    (int)o!.GetType().GetProperty("Id")!.GetValue(o)! == 5)
             ), Times.Once);
     }
 
@@ -73,8 +73,8 @@ public class SkillServiceTests
         repoMock.Verify(r => r.GetAllDataAsync<Skill>(
                 It.Is<string>(s => s == expectedSql && s.Contains("SkillId")),
                 It.Is<object>(o =>
-                    o!.GetType().GetProperty("EmployerName")?.GetValue(o) as string == "ACME" &&
-                    o.GetType().GetProperty("JobTitle")?.GetValue(o) as string == "Developer")
+                    (string)o!.GetType().GetProperty("EmployerName")!.GetValue(o)! == "ACME" &&
+                    (string)o.GetType().GetProperty("JobTitle")!.GetValue(o)! == "Developer")
             ), Times.Once);
     }
 }
