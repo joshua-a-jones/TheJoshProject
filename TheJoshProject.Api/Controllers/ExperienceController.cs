@@ -28,7 +28,7 @@ public class ExperienceController : ControllerBase
     [HttpGet("all")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<List<Experience>>>GetAllExperiencesAsync()
+    public async Task<ActionResult<List<Experience>>> GetAllExperiencesAsync()
     {
         var result = await _experienceService.GetAllExperience();
 

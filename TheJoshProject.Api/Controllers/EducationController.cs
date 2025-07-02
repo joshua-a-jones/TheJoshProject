@@ -28,7 +28,7 @@ public class EducationController : ControllerBase
     [HttpGet("all")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<List<Education>>>GetAllEducationAsync()
+    public async Task<ActionResult<List<Education>>> GetAllEducationAsync()
     {
         var result = await _educationService.GetAllEducationAsync();
 

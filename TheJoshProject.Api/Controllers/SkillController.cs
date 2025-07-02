@@ -32,7 +32,7 @@ public class SkillController : ControllerBase
     [HttpGet("all")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<List<Skill>>>GetAllSkillsAsync()
+    public async Task<ActionResult<List<Skill>>> GetAllSkillsAsync()
     {
         return Ok(await _skillService.GetAllSkills());
     }
