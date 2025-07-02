@@ -2,6 +2,7 @@ using Moq;
 using TheJoshProject.Api.Services;
 using TheJoshProject.Api.Models;
 using TheJoshProject.Api.DataAccess.Repositories;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace TheJoshProject.Tests;
 
@@ -23,7 +24,7 @@ public class ExperienceServiceTests
             }
         };
         repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(expected);
-        var service = new ExperienceService(repoMock.Object);
+        var service = new ExperienceService(repoMock.Object, NullLogger<ExperienceService>.Instance);
 
         // Act
         var result = await service.GetAllExperience();
@@ -46,7 +47,7 @@ public class ExperienceServiceTests
             StartDate = DateTime.UtcNow
         };
         repoMock.Setup(r => r.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(expected);
-        var service = new ExperienceService(repoMock.Object);
+        var service = new ExperienceService(repoMock.Object, NullLogger<ExperienceService>.Instance);
 
         // Act
         var result = await service.GetExperience(7);
@@ -62,7 +63,7 @@ public class ExperienceServiceTests
         // Arrange
         var repoMock = new Mock<IExperienceRepository>();
         repoMock.Setup(r => r.GetIdByEmployerAndJobAsync(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(99);
-        var service = new ExperienceService(repoMock.Object);
+        var service = new ExperienceService(repoMock.Object, NullLogger<ExperienceService>.Instance);
 
         // Act
         var result = await service.GetExperienceIdByEmployerAndJob("ACME", "Dev");

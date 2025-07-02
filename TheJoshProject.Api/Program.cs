@@ -8,6 +8,10 @@ using TheJoshProject.Api.DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure structured logging
+builder.Logging.ClearProviders();
+builder.Logging.AddJsonConsole();
+
 // Add services to the container.
 builder.Services.AddScoped<IRepository, SqlRepository>();
 builder.Services.AddScoped<IEducationRepository, EducationRepository>();
