@@ -2,6 +2,7 @@ using Moq;
 using TheJoshProject.Api.Services;
 using TheJoshProject.Api.Models;
 using TheJoshProject.Api.DataAccess.Repositories;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace TheJoshProject.Tests;
 
@@ -20,7 +21,7 @@ public class SkillServiceTests
         repoMock.Setup(r => r.GetByExperienceIdAsync(It.IsAny<int>()))
             .ReturnsAsync(expected);
 
-        var service = new SkillService(repoMock.Object);
+        var service = new SkillService(repoMock.Object, NullLogger<SkillService>.Instance);
 
         // Act
         var result = await service.GetSkillsByExperienceId(5);
@@ -44,7 +45,7 @@ public class SkillServiceTests
         repoMock.Setup(r => r.GetByEmployerAndJobAsync(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(expected);
 
-        var service = new SkillService(repoMock.Object);
+        var service = new SkillService(repoMock.Object, NullLogger<SkillService>.Instance);
 
         // Act
         var result = await service.GetSkillsByEmployerAndJob("ACME", "Developer");

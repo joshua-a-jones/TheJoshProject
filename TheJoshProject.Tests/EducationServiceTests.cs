@@ -2,6 +2,7 @@ using Moq;
 using TheJoshProject.Api.Services;
 using TheJoshProject.Api.Models;
 using TheJoshProject.Api.DataAccess.Repositories;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace TheJoshProject.Tests;
 
@@ -24,7 +25,7 @@ public class EducationServiceTests
             }
         };
         repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(expected);
-        var service = new EducationService(repoMock.Object);
+        var service = new EducationService(repoMock.Object, NullLogger<EducationService>.Instance);
 
         // Act
         var result = await service.GetAllEducationAsync();
@@ -48,7 +49,7 @@ public class EducationServiceTests
             StartDate = DateTime.UtcNow
         };
         repoMock.Setup(r => r.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(expected);
-        var service = new EducationService(repoMock.Object);
+        var service = new EducationService(repoMock.Object, NullLogger<EducationService>.Instance);
 
         // Act
         var result = await service.GetEducationByIdAsync(3);
