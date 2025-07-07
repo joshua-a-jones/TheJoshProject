@@ -22,7 +22,7 @@ public class EmployerService : IEmployerService
 
     public async Task<Employer?> GetEmployer(int id)
     {
-        _logger.LogInformation("Retrieving employer with id {Id}", id);
+        _logger.LogInformation("Retrieving employer with id {EmployerId}", id);
         return await _employerRepository.GetByIdAsync(id);
     }
 
